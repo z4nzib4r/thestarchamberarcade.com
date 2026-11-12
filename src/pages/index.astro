@@ -932,8 +932,12 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     }
     .hero-logo {
       order: -1;
-      max-width: 180px;
-      justify-self: start;
+      width: 100%;
+      max-width: 420px;
+      justify-self: center;
+    }
+    .hero-logo :global(img) {
+      width: 100%;
     }
     .pitch-grid,
     .contact-grid {
