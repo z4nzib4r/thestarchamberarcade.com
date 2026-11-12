@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
+import Map from '../components/Map.astro';
 import { site, hours, arcadeGames, pinballMachines } from '../data/site';
 import logo from '../assets/logo.png';
 import cabinet from '../assets/cabinet.png';
@@ -26,13 +27,13 @@ const totalGames = arcadeGames.length + pinballMachines.length;
       </div>
       <div class="container hero-inner">
         <div class="hero-copy">
-          <p class="eyebrow">Athens, Ohio · Insert coin</p>
+          <p class="eyebrow">Athens, Ohio · $5 free play</p>
           <h1>
-            Athens’ only <span class="pink">arcade</span>.
+            Athens’ only <span class="neon">arcade</span>
           </h1>
           <p class="lede">
-            {totalGames}+ arcade games and pinball machines, beer and boozy seltzers, hard scoop ice cream, novelty candy
-            — and one flat price to play them all.
+            Come join us for arcade games and pinball, beer and boozy seltzers, hard scoop ice cream, novelty candy, and
+            fun!
           </p>
           <div class="cta">
             <a class="btn btn-pink" href="#visit">Plan your visit →</a>
@@ -53,45 +54,6 @@ const totalGames = arcadeGames.length + pinballMachines.length;
               </span>
             ))
           }
-        </div>
-      </div>
-    </section>
-
-    <!-- PRICE / PITCH -->
-    <section class="section pitch">
-      <div class="container pitch-grid">
-        <div class="price-card reveal">
-          <p class="eyebrow">Admission</p>
-          <div class="price">
-            <span class="currency">$</span>{site.admission.price}
-          </div>
-          <p class="per">per half hour</p>
-          <p class="note">
-            We run on <strong>free play</strong>. Pay once and play every game in the place for as long as you want.
-          </p>
-        </div>
-        <div class="feature-list reveal">
-          <div class="feature">
-            <span class="icon">◆</span>
-            <div>
-              <h3>Arcade classics</h3>
-              <p>{arcadeGames.length} cabinets in rotation — from Pac-Man and Galaga to NBA Jam and The Simpsons.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <span class="icon">◆</span>
-            <div>
-              <h3>Pinball</h3>
-              <p>{pinballMachines.length} machines, including Addams Family, Twilight Zone and Attack from Mars.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <span class="icon">◆</span>
-            <div>
-              <h3>Drinks &amp; treats</h3>
-              <p>Beer, boozy seltzers, hard scoop ice cream and novelty candy.</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -137,19 +99,56 @@ const totalGames = arcadeGames.length + pinballMachines.length;
               {`${site.address.city}, ${site.address.regionLong} ${site.address.zip}`}
             </address>
             <p class="callout">
-              <strong>Enter on Fern Street</strong> — look for the signs! We’re right under our friends at Hot Box Chicken.
+              <strong>Enter on Fern Street</strong> and look for the signs! We’re right under our friends at Hot Box Chicken.
             </p>
             <a class="btn btn-ghost" href={mapsUrl} target="_blank" rel="noopener">Get directions ↗</a>
           </div>
 
           <div class="card map-card reveal">
-            <iframe
-              title="Map to The Star Chamber"
-              src={`https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`}
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <Map />
           </div>
         </div>
+      <div class="pricing" id="pricing">
+        <div class="pricing-head">
+          <p class="eyebrow">Admission</p>
+          <h2 class="section-title">Just press start.</h2>
+        </div>
+      <div class="pitch-grid">
+        <div class="price-card reveal">
+          <p class="eyebrow">Free play</p>
+          <div class="price">
+            <span class="currency">$</span>{site.admission.price}
+          </div>
+          <p class="per">per half hour</p>
+          <p class="note">
+            We run on <strong>free play</strong>. Pay $5 per half hour and play every game in the place, as much as you want.
+          </p>
+        </div>
+        <div class="feature-list reveal">
+          <div class="feature">
+            <span class="icon">◆</span>
+            <div>
+              <h3>Arcade classics</h3>
+              <p>{arcadeGames.length} cabinets in rotation, from Pac-Man and Galaga to NBA Jam and The Simpsons.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="icon">◆</span>
+            <div>
+              <h3>Pinball</h3>
+              <p>{pinballMachines.length} machines, including Addams Family, Twilight Zone and Attack from Mars.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="icon">◆</span>
+            <div>
+              <h3>Drinks &amp; treats</h3>
+              <p>Beer, boozy seltzers, hard scoop ice cream and novelty candy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
       </div>
     </section>
 
@@ -205,7 +204,7 @@ const totalGames = arcadeGames.length + pinballMachines.length;
             <p class="eyebrow">Private parties</p>
             <h2 class="section-title">Yes, we host parties.</h2>
             <p>
-              Birthdays, team nights, get-togethers — bring the crew and take over the arcade. Email us and we’ll sort
+              Birthdays, team nights, get-togethers: bring the crew and take over the arcade. Email us and we’ll sort
               out the details.
             </p>
           </div>
@@ -425,10 +424,11 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     flex: 1;
   }
   h1 {
-    font-size: clamp(3rem, 9vw, 7.5rem);
-    line-height: 0.92;
-    letter-spacing: -0.05em;
-    font-weight: 700;
+    font-family: var(--display);
+    font-size: clamp(2.75rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    font-weight: 400;
+    text-transform: uppercase;
     margin: 0 0 1.5rem;
   }
   .lede {
@@ -483,6 +483,25 @@ const totalGames = arcadeGames.length + pinballMachines.length;
   }
 
   /* PITCH */
+  .pricing {
+    margin-top: clamp(4rem, 9vw, 7rem);
+    padding-top: clamp(3rem, 6vw, 5rem);
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .pricing::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 120px;
+    height: 2px;
+    background: var(--pink);
+    box-shadow: 0 0 12px var(--pink);
+  }
+  .pricing-head {
+    margin-bottom: 2.5rem;
+  }
   .pitch-grid {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
@@ -498,10 +517,11 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     border: 1px solid rgba(255, 45, 149, 0.4);
   }
   .price {
+    font-family: var(--display);
     font-size: clamp(5rem, 14vw, 9rem);
     line-height: 0.9;
-    font-weight: 700;
-    letter-spacing: -0.06em;
+    color: #ffe3f1;
+    text-shadow: var(--neon);
   }
   .currency {
     font-size: 0.45em;
@@ -535,7 +555,8 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     transition: border-color 0.2s;
   }
   .feature:hover {
-    border-color: rgba(255, 45, 149, 0.5);
+    border-color: var(--pink);
+    box-shadow: 0 0 18px var(--pink-glow);
   }
   .icon {
     color: var(--pink);
@@ -544,7 +565,10 @@ const totalGames = arcadeGames.length + pinballMachines.length;
   }
   .feature h3 {
     margin: 0 0 0.25rem;
-    font-size: 1.25rem;
+    font-family: var(--display);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.15rem;
   }
   .feature p {
     margin: 0;
@@ -553,6 +577,7 @@ const totalGames = arcadeGames.length + pinballMachines.length;
 
   /* GALLERY */
   .gallery {
+    margin-top: clamp(3rem, 8vw, 6rem);
     display: grid;
     grid-template-columns: 1.3fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -593,7 +618,11 @@ const totalGames = arcadeGames.length + pinballMachines.length;
   }
   .card h3 {
     margin: 0 0 1rem;
-    font-size: 1.25rem;
+    font-family: var(--display);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+    color: var(--pink);
   }
   .hours {
     list-style: none;
@@ -640,13 +669,6 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     padding: 0;
     overflow: hidden;
     min-height: 320px;
-  }
-  .map-card iframe {
-    width: 100%;
-    height: 100%;
-    min-height: 320px;
-    border: 0;
-    filter: grayscale(1) invert(0.92) contrast(0.9);
   }
 
   /* GAMES */
@@ -740,6 +762,7 @@ const totalGames = arcadeGames.length + pinballMachines.length;
   }
   .game-grid li:hover {
     border-color: var(--pink);
+    box-shadow: 0 0 14px var(--pink-glow);
     transform: translateY(-2px);
   }
   .game-grid li[hidden] {
@@ -773,6 +796,7 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     padding: clamp(2rem, 6vw, 4.5rem);
     border-radius: calc(var(--radius) * 1.5);
     background: var(--pink);
+    box-shadow: 0 0 60px -10px var(--pink-glow);
     color: var(--black);
     position: relative;
     overflow: hidden;
@@ -879,9 +903,10 @@ const totalGames = arcadeGames.length + pinballMachines.length;
     font-size: 0.9rem;
   }
   .foot-brand {
-    font-family: var(--pixel);
-    font-size: 0.7rem;
-    color: var(--pink);
+    font-family: var(--display);
+    font-size: 1rem;
+    color: #ffe3f1;
+    text-shadow: var(--neon);
   }
   .foot a {
     text-decoration: none;

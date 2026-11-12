@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/space-grotesk';
 import '@fontsource/press-start-2p';
+import '@fontsource/russo-one';
 import '../styles/global.css';
 import { site, hours } from '../data/site';
 
@@ -9,7 +10,7 @@ interface Props {
   description?: string;
 }
 
-const { title = `${site.fullName} — Athens, Ohio`, description = site.description } = Astro.props;
+const { title = `${site.fullName} | Athens, Ohio`, description = site.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
 const dayCodes = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
