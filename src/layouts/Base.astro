@@ -12,6 +12,11 @@ interface Props {
 
 const { title = `${site.fullName} | Athens, Ohio`, description = site.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const asset = (path: string) => `${base}${path}`;
+const touchIcon = new URL(asset('apple-touch-icon.png'), Astro.site).toString();
+// Client preview builds (GitHub Pages) shouldn't be indexed by search engines
+const noindex = import.meta.env.PUBLIC_NOINDEX === 'true';
 
 const dayCodes = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const fmt = (h: number) => {
@@ -28,7 +33,7 @@ const jsonLd = {
   url: Astro.site?.toString(),
   telephone: site.phone,
   email: site.email,
-  image: new URL('/apple-touch-icon.png', Astro.site).toString(),
+  image: touchIcon,
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.street,
@@ -50,14 +55,15 @@ const jsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={asset('apple-touch-icon.png')} />
     <meta name="theme-color" content="#000000" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/apple-touch-icon.png', Astro.site)} />
+    <meta property="og:image" content={touchIcon} />
     <meta name="twitter:card" content="summary" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
