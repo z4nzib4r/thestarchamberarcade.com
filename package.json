@@ -1,0 +1,20 @@
+{
+  "name": "thestarchamberarcade-com",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy"
+  },
+  "dependencies": {
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource/press-start-2p": "^5.3.0",
+    "astro": "^7.3.8"
+  },
+  "devDependencies": {
+    "wrangler": "^4.160.1"
+  }
+}

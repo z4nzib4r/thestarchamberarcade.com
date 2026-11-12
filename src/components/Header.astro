@@ -1,0 +1,244 @@
+---
+import { site } from '../data/site';
+
+const links = [
+  { href: '#visit', label: 'Visit' },
+  { href: '#games', label: 'Games' },
+  { href: '#parties', label: 'Parties' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="header" data-header>
+  <div class="container bar">
+    <a href="#top" class="brand" aria-label={`${site.name} home`}>
+      <svg viewBox="0 0 64 64" aria-hidden="true" class="mark">
+        <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="3"></circle>
+        <path
+          d="M32 14l5 11.8 12.8 1-9.8 8.4 3 12.5L32 41l-11 6.7 3-12.5-9.8-8.4 12.8-1z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linejoin="round"></path>
+      </svg>
+      <span>The Star Chamber</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul id="nav-menu" data-menu>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <span class="status" data-status hidden>
+      <span class="dot"></span><span data-status-text></span>
+    </span>
+
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav-menu" data-menu-btn>
+      <span class="sr-only">Menu</span>
+      <span class="burger" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .header.scrolled {
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-color: var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 72px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-right: auto;
+  }
+  .mark {
+    width: 32px;
+    height: 32px;
+    color: var(--pink);
+    filter: drop-shadow(0 0 6px var(--pink-glow));
+  }
+  .nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav a {
+    display: block;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 500;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav a:hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .status.open .dot {
+    background: var(--pink);
+    box-shadow: 0 0 10px var(--pink);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  .menu-btn {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    place-items: center;
+  }
+  .burger,
+  .burger::before,
+  .burger::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s;
+    position: relative;
+  }
+  .burger::before,
+  .burger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .burger::before {
+    top: -6px;
+  }
+  .burger::after {
+    top: 6px;
+  }
+  .menu-btn[aria-expanded='true'] .burger {
+    background: transparent;
+  }
+  .menu-btn[aria-expanded='true'] .burger::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .menu-btn[aria-expanded='true'] .burger::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @media (max-width: 760px) {
+    .bar {
+      gap: 0.75rem;
+    }
+    .menu-btn {
+      display: grid;
+    }
+    .nav ul {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      padding: 1rem var(--gutter) 1.5rem;
+      background: rgba(0, 0, 0, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav ul.open {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .nav a {
+      font-size: 1.25rem;
+      padding: 0.75rem 0;
+      color: var(--white);
+    }
+    .nav a:hover {
+      background: none;
+      color: var(--pink);
+    }
+  }
+  @media (max-width: 400px) {
+    .brand span {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const setOpen = (open: boolean) => {
+    btn.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('open', open);
+    if (open) header.classList.add('scrolled');
+    else onScroll();
+  };
+  btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+</script>

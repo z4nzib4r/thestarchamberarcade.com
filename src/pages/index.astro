@@ -1,0 +1,948 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import { site, hours, arcadeGames, pinballMachines } from '../data/site';
+import logo from '../assets/logo.png';
+import cabinet from '../assets/cabinet.png';
+import floor from '../assets/floor.png';
+import entrance from '../assets/entrance.png';
+
+const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.regionLong} ${site.address.zip}`;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const telHref = `tel:+1${site.phone.replace(/\D/g, '')}`;
+const totalGames = arcadeGames.length + pinballMachines.length;
+---
+
+<Base>
+  <Header />
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="grid-floor"></div>
+        <div class="glow"></div>
+      </div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Athens, Ohio · Insert coin</p>
+          <h1>
+            Athens’ only <span class="pink">arcade</span>.
+          </h1>
+          <p class="lede">
+            {totalGames}+ arcade games and pinball machines, beer and boozy seltzers, hard scoop ice cream, novelty candy
+            — and one flat price to play them all.
+          </p>
+          <div class="cta">
+            <a class="btn btn-pink" href="#visit">Plan your visit →</a>
+            <a class="btn btn-ghost" href="#games">See the games</a>
+          </div>
+        </div>
+        <div class="hero-logo">
+          <Image src={logo} alt="The Star Chamber Arcade neon logo" widths={[332]} loading="eager" />
+        </div>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="track">
+          {
+            [0, 1].map(() => (
+              <span>
+                FREE PLAY ★ $5 / HALF HOUR ★ ARCADE ★ PINBALL ★ BEER &amp; SELTZERS ★ ICE CREAM ★ CANDY ★ PRIVATE PARTIES ★{' '}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICE / PITCH -->
+    <section class="section pitch">
+      <div class="container pitch-grid">
+        <div class="price-card reveal">
+          <p class="eyebrow">Admission</p>
+          <div class="price">
+            <span class="currency">$</span>{site.admission.price}
+          </div>
+          <p class="per">per half hour</p>
+          <p class="note">
+            We run on <strong>free play</strong>. Pay once and play every game in the place for as long as you want.
+          </p>
+        </div>
+        <div class="feature-list reveal">
+          <div class="feature">
+            <span class="icon">◆</span>
+            <div>
+              <h3>Arcade classics</h3>
+              <p>{arcadeGames.length} cabinets in rotation — from Pac-Man and Galaga to NBA Jam and The Simpsons.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="icon">◆</span>
+            <div>
+              <h3>Pinball</h3>
+              <p>{pinballMachines.length} machines, including Addams Family, Twilight Zone and Attack from Mars.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="icon">◆</span>
+            <div>
+              <h3>Drinks &amp; treats</h3>
+              <p>Beer, boozy seltzers, hard scoop ice cream and novelty candy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery container" aria-label="Photos">
+      <figure class="reveal tall">
+        <Image src={floor} alt="Classic arcade cabinets lined up against a brick wall" widths={[400, 746]} sizes="(max-width: 760px) 100vw, 40vw" />
+      </figure>
+      <figure class="reveal">
+        <Image src={cabinet} alt="The Star Chamber Arcade bartop cabinet glowing pink" widths={[400, 743]} sizes="(max-width: 760px) 100vw, 30vw" />
+      </figure>
+      <figure class="reveal">
+        <Image src={entrance} alt="The neon-lit Star Chamber entrance on Fern Street at night" widths={[400, 677]} sizes="(max-width: 760px) 100vw, 30vw" />
+      </figure>
+    </section>
+
+    <!-- VISIT -->
+    <section class="section" id="visit">
+      <div class="container">
+        <p class="eyebrow">Visit</p>
+        <h2 class="section-title">Find us under Hot Box.</h2>
+
+        <div class="visit-grid">
+          <div class="card hours-card reveal">
+            <h3>Hours</h3>
+            <ul class="hours" data-hours>
+              {
+                hours.map((h) => (
+                  <li data-day={h.day}>
+                    <span>{h.label}</span>
+                    <span>{h.display}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="card reveal">
+            <h3>Location</h3>
+            <address>
+              {site.address.street}<br />
+              {`${site.address.city}, ${site.address.regionLong} ${site.address.zip}`}
+            </address>
+            <p class="callout">
+              <strong>Enter on Fern Street</strong> — look for the signs! We’re right under our friends at Hot Box Chicken.
+            </p>
+            <a class="btn btn-ghost" href={mapsUrl} target="_blank" rel="noopener">Get directions ↗</a>
+          </div>
+
+          <div class="card map-card reveal">
+            <iframe
+              title="Map to The Star Chamber"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAMES -->
+    <section class="section games" id="games">
+      <div class="container">
+        <div class="games-head">
+          <div>
+            <p class="eyebrow">Game list</p>
+            <h2 class="section-title">Every game we own.</h2>
+            <p class="muted">We rotate games on the floor frequently, so not every title is out at once.</p>
+          </div>
+          <div class="controls">
+            <label class="search">
+              <span class="sr-only">Search games</span>
+              <input type="search" placeholder="Search games…" data-search autocomplete="off" />
+            </label>
+            <div class="tabs" role="group" aria-label="Filter games">
+              <button class="tab active" data-filter="all" aria-pressed="true">All <span>{totalGames}</span></button>
+              <button class="tab" data-filter="arcade" aria-pressed="false">Arcade <span>{arcadeGames.length}</span></button>
+              <button class="tab" data-filter="pinball" aria-pressed="false">Pinball <span>{pinballMachines.length}</span></button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="game-grid" data-games>
+          {
+            pinballMachines.map((g) => (
+              <li data-type="pinball" data-name={g.toLowerCase()}>
+                <span class="tag">Pinball</span>
+                {g}
+              </li>
+            ))
+          }
+          {
+            arcadeGames.map((g) => (
+              <li data-type="arcade" data-name={g.toLowerCase()}>
+                <span class="tag">Arcade</span>
+                {g}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="empty" data-empty hidden>No games match that search. Game over.</p>
+      </div>
+    </section>
+
+    <!-- PARTIES -->
+    <section class="section" id="parties">
+      <div class="container">
+        <div class="party reveal">
+          <div class="party-copy">
+            <p class="eyebrow">Private parties</p>
+            <h2 class="section-title">Yes, we host parties.</h2>
+            <p>
+              Birthdays, team nights, get-togethers — bring the crew and take over the arcade. Email us and we’ll sort
+              out the details.
+            </p>
+          </div>
+          <a class="btn btn-pink big" href={`mailto:${site.email}?subject=Private%20party%20inquiry`}>Email about a party →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container contact-grid">
+        <div>
+          <p class="eyebrow">Say hi</p>
+          <h2 class="section-title">Follow along.</h2>
+          <p class="muted">Follow us on Instagram and Facebook for updates, new games and events.</p>
+          <div class="socials">
+            <a class="btn btn-ghost" href={site.instagram} target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                ><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"
+                ></rect><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle><circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1.2"
+                  fill="currentColor"></circle></svg
+              >
+              Instagram
+            </a>
+            <a class="btn btn-ghost" href={site.facebook} target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                ><path
+                  d="M14 8h3V4h-3c-2.8 0-4 1.8-4 4.3V10H7v4h3v7h4v-7h3l1-4h-4V8.6c0-.4.3-.6.6-.6z"
+                  fill="currentColor"></path></svg
+              >
+              Facebook
+            </a>
+          </div>
+        </div>
+        <dl class="contact-list">
+          <div>
+            <dt>Phone</dt>
+            <dd><a href={telHref}>{site.phone}</a></dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+          </div>
+          <div>
+            <dt>Address</dt>
+            <dd>
+              <a href={mapsUrl} target="_blank" rel="noopener">{fullAddress}</a>
+              <small>Entrance on Fern Street</small>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container foot">
+      <span class="foot-brand">THE STAR CHAMBER</span>
+      <span class="muted">© {new Date().getFullYear()} {site.fullName} · Athens, Ohio</span>
+      <a href="#top" class="muted">Back to top ↑</a>
+    </div>
+  </footer>
+</Base>
+
+<script>
+  import { hours } from '../data/site';
+
+  // ---- Open / closed status (computed in America/New_York) ----
+  const nowET = () => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      weekday: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const get = (t: string) => parts.find((p) => p.type === t)!.value;
+    const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
+    return { day, time: Number(get('hour')) + Number(get('minute')) / 60 };
+  };
+
+  const { day, time } = nowET();
+  const today = hours.find((h) => h.day === day)!;
+  const yesterday = hours.find((h) => h.day === (day + 6) % 7)!;
+  const openToday = time >= today.open && time < today.close;
+  const openFromYesterday = yesterday.close > 24 && time < yesterday.close - 24;
+  const isOpen = openToday || openFromYesterday;
+
+  const status = document.querySelector<HTMLElement>('[data-status]');
+  const statusText = document.querySelector<HTMLElement>('[data-status-text]');
+  if (status && statusText) {
+    status.hidden = false;
+    status.classList.toggle('open', isOpen);
+    statusText.textContent = isOpen ? 'Open now' : 'Closed';
+  }
+  // Highlight "today" (an after-midnight session belongs to the previous day's row)
+  const activeDay = openFromYesterday && !openToday ? yesterday.day : day;
+  document.querySelector(`[data-hours] li[data-day="${activeDay}"]`)?.classList.add('today');
+
+  // ---- Game filter ----
+  const search = document.querySelector<HTMLInputElement>('[data-search]')!;
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const items = document.querySelectorAll<HTMLLIElement>('[data-games] li');
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  let filter = 'all';
+
+  const apply = () => {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    items.forEach((li) => {
+      const ok = (filter === 'all' || li.dataset.type === filter) && (!q || li.dataset.name!.includes(q));
+      li.hidden = !ok;
+      if (ok) shown++;
+    });
+    empty.hidden = shown > 0;
+  };
+  search.addEventListener('input', apply);
+  tabs.forEach((t) =>
+    t.addEventListener('click', () => {
+      filter = t.dataset.filter!;
+      tabs.forEach((x) => {
+        x.classList.toggle('active', x === t);
+        x.setAttribute('aria-pressed', String(x === t));
+      });
+      apply();
+    }),
+  );
+
+  // ---- Reveal on scroll ----
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      }),
+    { threshold: 0.12 },
+  );
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+
+<style>
+  .pink {
+    color: var(--pink);
+    text-shadow: 0 0 24px var(--pink-glow);
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .section {
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 96px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .glow {
+    position: absolute;
+    width: 70vmax;
+    height: 70vmax;
+    right: -20vmax;
+    top: -15vmax;
+    background: radial-gradient(circle, rgba(255, 45, 149, 0.28), transparent 60%);
+    filter: blur(20px);
+  }
+  .grid-floor {
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    bottom: -10%;
+    height: 55%;
+    background-image:
+      linear-gradient(rgba(255, 45, 149, 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 45, 149, 0.35) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(500px) rotateX(62deg);
+    transform-origin: center top;
+    mask-image: linear-gradient(to bottom, transparent, black 30%, black 60%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 60%, transparent);
+    animation: scroll-grid 3s linear infinite;
+    opacity: 0.6;
+  }
+  @keyframes scroll-grid {
+    to {
+      background-position: 0 60px;
+    }
+  }
+  .hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: 3rem;
+    flex: 1;
+  }
+  h1 {
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+  }
+  .lede {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: var(--muted);
+    max-width: 34rem;
+    margin: 0 0 2rem;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .hero-logo {
+    justify-self: center;
+    max-width: 340px;
+    animation: flicker 6s infinite;
+  }
+  .hero-logo :global(img) {
+    border-radius: 24px;
+    filter: drop-shadow(0 0 40px rgba(255, 45, 149, 0.35));
+  }
+  @keyframes flicker {
+    0%, 92%, 96%, 100% { opacity: 1; }
+    93%, 95% { opacity: 0.55; }
+    94% { opacity: 0.9; }
+  }
+
+  .marquee {
+    position: relative;
+    border-block: 1px solid var(--line);
+    background: var(--pink);
+    color: var(--black);
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+  .track span {
+    font-family: var(--pixel);
+    font-size: 0.75rem;
+    padding: 0.9rem 0;
+    white-space: pre;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* PITCH */
+  .pitch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+  .price-card {
+    border-radius: var(--radius);
+    padding: clamp(1.75rem, 4vw, 3rem);
+    background:
+      radial-gradient(120% 120% at 0% 0%, rgba(255, 45, 149, 0.35), transparent 55%),
+      var(--panel);
+    border: 1px solid rgba(255, 45, 149, 0.4);
+  }
+  .price {
+    font-size: clamp(5rem, 14vw, 9rem);
+    line-height: 0.9;
+    font-weight: 700;
+    letter-spacing: -0.06em;
+  }
+  .currency {
+    font-size: 0.45em;
+    vertical-align: top;
+    color: var(--pink);
+    margin-right: 0.05em;
+  }
+  .per {
+    font-family: var(--pixel);
+    font-size: 0.75rem;
+    margin: 0.75rem 0 1.5rem;
+  }
+  .note {
+    color: var(--muted);
+    margin: 0;
+  }
+  .note strong {
+    color: var(--white);
+  }
+  .feature-list {
+    display: grid;
+    gap: 1rem;
+  }
+  .feature {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    transition: border-color 0.2s;
+  }
+  .feature:hover {
+    border-color: rgba(255, 45, 149, 0.5);
+  }
+  .icon {
+    color: var(--pink);
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+  .feature h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.25rem;
+  }
+  .feature p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  /* GALLERY */
+  .gallery {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    height: clamp(520px, 70vw, 760px);
+  }
+  .gallery figure {
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .gallery .tall {
+    grid-row: span 2;
+  }
+  .gallery :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .gallery figure:hover :global(img) {
+    transform: scale(1.04);
+  }
+
+  /* VISIT */
+  .visit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .card {
+    border-radius: var(--radius);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 1.75rem;
+  }
+  .card h3 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+  }
+  .hours {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0.75rem;
+    margin-inline: -0.75rem;
+    border-radius: 10px;
+    color: var(--muted);
+  }
+  .hours li + li {
+    border-top: 1px solid var(--line);
+  }
+  .hours li.today {
+    background: var(--pink);
+    color: var(--black);
+    font-weight: 700;
+    border-color: transparent;
+  }
+  .hours li.today + li {
+    border-color: transparent;
+  }
+  address {
+    font-style: normal;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .callout {
+    color: var(--muted);
+    border-left: 3px solid var(--pink);
+    padding-left: 1rem;
+    margin: 1.25rem 0 1.5rem;
+  }
+  .callout strong {
+    color: var(--white);
+  }
+  .map-card {
+    padding: 0;
+    overflow: hidden;
+    min-height: 320px;
+  }
+  .map-card iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    border: 0;
+    filter: grayscale(1) invert(0.92) contrast(0.9);
+  }
+
+  /* GAMES */
+  .games {
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(255, 45, 149, 0.12), transparent),
+      var(--ink);
+    border-block: 1px solid var(--line);
+  }
+  .games-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .games-head .muted {
+    margin: 0;
+    max-width: 32rem;
+  }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: min(100%, 360px);
+  }
+  .search input {
+    width: 100%;
+    font: inherit;
+    color: var(--white);
+    background: var(--black);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.8rem 1.2rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search input:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(255, 45, 149, 0.18);
+  }
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--black);
+  }
+  .tab {
+    flex: 1;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--muted);
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.55rem 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .tab span {
+    opacity: 0.6;
+    font-size: 0.8em;
+  }
+  .tab.active {
+    background: var(--white);
+    color: var(--black);
+  }
+  .game-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem;
+  }
+  .game-grid li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+    background: var(--black);
+    border: 1px solid var(--line);
+    font-weight: 600;
+    line-height: 1.3;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .game-grid li:hover {
+    border-color: var(--pink);
+    transform: translateY(-2px);
+  }
+  .game-grid li[hidden] {
+    display: none;
+  }
+  .tag {
+    font-family: var(--pixel);
+    font-size: 0.55rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  li[data-type='pinball'] .tag {
+    color: var(--pink);
+  }
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 3rem 0;
+    font-family: var(--pixel);
+    font-size: 0.8rem;
+  }
+
+  /* PARTY */
+  .party {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: clamp(2rem, 6vw, 4.5rem);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--pink);
+    color: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+  .party::after {
+    content: '★';
+    position: absolute;
+    right: -2rem;
+    bottom: -6rem;
+    font-size: 22rem;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+  }
+  .party .eyebrow {
+    color: var(--black);
+  }
+  .party-copy {
+    max-width: 36rem;
+    position: relative;
+    z-index: 1;
+  }
+  .party-copy p:last-child {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+  .party .btn-pink {
+    background: var(--black);
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+  }
+  .party .btn-pink:hover {
+    box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.6);
+  }
+  .big {
+    font-size: 1.1rem;
+    padding: 1.1rem 1.75rem;
+  }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .socials {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .contact-list {
+    margin: 0;
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .contact-list > div {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  dt {
+    font-family: var(--pixel);
+    font-size: 0.65rem;
+    color: var(--pink);
+    padding-top: 0.35rem;
+  }
+  dd {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  dd a {
+    text-decoration: none;
+    background: linear-gradient(var(--pink), var(--pink)) 0 100% / 0 2px no-repeat;
+    transition: background-size 0.25s;
+  }
+  dd a:hover {
+    background-size: 100% 2px;
+  }
+  dd small {
+    display: block;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: 2rem;
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  .foot-brand {
+    font-family: var(--pixel);
+    font-size: 0.7rem;
+    color: var(--pink);
+  }
+  .foot a {
+    text-decoration: none;
+  }
+  .foot a:hover {
+    color: var(--white);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .visit-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .map-card {
+      grid-column: span 2;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: left;
+    }
+    .hero-logo {
+      order: -1;
+      max-width: 180px;
+      justify-self: start;
+    }
+    .pitch-grid,
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+    .gallery {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      height: auto;
+    }
+    .gallery .tall {
+      grid-row: auto;
+      grid-column: span 2;
+      aspect-ratio: 4 / 3;
+    }
+    .gallery figure:not(.tall) {
+      aspect-ratio: 1;
+    }
+    .visit-grid {
+      grid-template-columns: 1fr;
+    }
+    .map-card {
+      grid-column: auto;
+    }
+    .contact-list > div {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .game-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .game-grid li {
+      padding: 0.8rem 0.9rem;
+      font-size: 0.95rem;
+    }
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/press-start-2p';
+import '../styles/global.css';
+import { site, hours } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = `${site.fullName} — Athens, Ohio`, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const dayCodes = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+const fmt = (h: number) => {
+  const hh = Math.floor(h) % 24;
+  const mm = Math.round((h % 1) * 60);
+  return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AmusementPark',
+  name: site.fullName,
+  description: site.description,
+  url: Astro.site?.toString(),
+  telephone: site.phone,
+  email: site.email,
+  image: new URL('/apple-touch-icon.png', Astro.site).toString(),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    postalCode: site.address.zip,
+    addressCountry: 'US',
+  },
+  openingHours: hours.map((h) => `${dayCodes[h.day]} ${fmt(h.open)}-${fmt(h.close)}`),
+  sameAs: [site.instagram, site.facebook],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/apple-touch-icon.png', Astro.site)} />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
