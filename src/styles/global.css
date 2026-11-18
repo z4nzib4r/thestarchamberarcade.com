@@ -1,21 +1,61 @@
+/* ------------------------------------------------------------------
+   The Star Chamber: retro notebook theme
+   Paper, tape, ballpoint, highlighter, photocopies, label maker.
+------------------------------------------------------------------- */
 :root {
-  --black: #000;
-  --ink: #0a0a0b;
-  --panel: #111113;
-  --line: rgba(255, 255, 255, 0.1);
-  --white: #fff;
-  --muted: rgba(255, 255, 255, 0.64);
+  /* desk + paper */
+  --desk: #2a211b;
+  --desk-2: #3a2c22;
+  --paper: #f6f0e0;
+  --paper-2: #efe6cf;
+  --paper-shade: #e4d8bb;
+  --kraft: #c9a67b;
+  --kraft-dark: #a8845a;
+  --index: #fffdf6;
+  --graph: rgba(70, 130, 180, 0.22);
+
+  /* inks */
+  --ink: #1d1b19;
+  --pencil: #5c5750;
+  --ballpoint: #233a91;
+  --ballpoint-soft: rgba(35, 58, 145, 0.55);
+  --red-pen: #c8312b;
+  --rule: rgba(80, 140, 200, 0.32);
+  --margin: rgba(214, 64, 64, 0.55);
+
+  /* brand pink as highlighter / marker */
   --pink: #ff2d95;
-  --pink-soft: #ff6db8;
-  --pink-glow: rgba(255, 45, 149, 0.45);
-  --radius: 20px;
-  --max: 1200px;
+  --pink-ink: #d9157a;
+  --highlight: rgba(255, 92, 170, 0.55);
+  --highlight-yellow: rgba(255, 236, 60, 0.75);
+  --sticky: #ffe970;
+  --sticky-pink: #ffb3d4;
+
+  /* tape */
+  --tape: rgba(236, 226, 190, 0.78);
+  --tape-edge: rgba(180, 165, 120, 0.35);
+
+  --max: 1180px;
   --gutter: clamp(16px, 4vw, 40px);
-  --font: 'Space Grotesk Variable', system-ui, -apple-system, sans-serif;
+  --line: 32px;
+
+  --type: 'Courier Prime', ui-monospace, 'Courier New', monospace;
+  --worn: 'Special Elite', var(--type);
+  --marker: 'Permanent Marker', 'Comic Sans MS', cursive;
+  --hand: 'Caveat Variable', 'Bradley Hand', cursive;
   --pixel: 'Press Start 2P', ui-monospace, monospace;
-  --display: 'Russo One', var(--font);
-  --neon: 0 0 4px rgba(255, 255, 255, 0.5), 0 0 12px var(--pink), 0 0 32px var(--pink-glow);
-  color-scheme: dark;
+
+  --shadow-sm: 1px 2px 2px rgba(0, 0, 0, 0.18), 0 6px 10px -6px rgba(0, 0, 0, 0.35);
+  --shadow: 2px 4px 6px rgba(0, 0, 0, 0.2), 0 18px 30px -14px rgba(0, 0, 0, 0.55);
+  --shadow-lift: 4px 10px 12px rgba(0, 0, 0, 0.22), 0 30px 40px -16px rgba(0, 0, 0, 0.55);
+
+  /* film grain, reused on many surfaces */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.18 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fibers: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .09' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.22 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  /* speckled ink mask for rubber stamps */
+  --stamp-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 3.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+
+  color-scheme: light;
 }
 
 *,
@@ -26,34 +66,42 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: 96px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background: var(--black);
-  color: var(--white);
-  font-family: var(--font);
+  color: var(--ink);
+  font-family: var(--type);
   font-size: 1.0625rem;
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* the desk: dark wood-ish surface with grain + a warm lamp pool */
+  background:
+    radial-gradient(90% 60% at 50% 0%, rgba(255, 210, 150, 0.18), transparent 70%),
+    var(--fibers),
+    var(--grain),
+    repeating-linear-gradient(
+      93deg,
+      rgba(0, 0, 0, 0.08) 0 2px,
+      transparent 2px 9px,
+      rgba(255, 255, 255, 0.025) 9px 11px,
+      transparent 11px 23px
+    ),
+    linear-gradient(180deg, var(--desk-2), var(--desk));
 }
 
-/* Very light CRT scanlines */
+/* Paper texture overlay: a whisper of grain over everything */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
-}
-
-.neon {
-  color: #ffe3f1;
-  text-shadow: var(--neon);
+  background-image: var(--grain);
+  opacity: 0.22;
+  mix-blend-mode: multiply;
 }
 
 img {
@@ -67,14 +115,13 @@ a {
 }
 
 ::selection {
-  background: var(--pink);
-  color: var(--black);
+  background: var(--highlight-yellow);
+  color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--pink);
-  outline-offset: 3px;
-  border-radius: 6px;
+  outline: 3px dashed var(--ballpoint);
+  outline-offset: 4px;
 }
 
 .container {
@@ -84,71 +131,218 @@ a {
   padding-inline: var(--gutter);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Paper surfaces ---------- */
+
+/* Ruled notebook paper */
+.paper {
+  background-color: var(--paper);
+  background-image:
+    var(--grain),
+    linear-gradient(90deg, transparent 0 calc(var(--margin-x, 72px) - 1px), var(--margin) calc(var(--margin-x, 72px) - 1px) calc(var(--margin-x, 72px) + 1px), transparent calc(var(--margin-x, 72px) + 1px)),
+    repeating-linear-gradient(180deg, transparent 0 calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px) var(--line));
+  background-blend-mode: multiply, normal, normal;
+}
+
+/* Graph paper */
+.graph {
+  background-color: #f7f8f1;
+  background-image:
+    var(--grain),
+    linear-gradient(var(--graph) 1px, transparent 1px),
+    linear-gradient(90deg, var(--graph) 1px, transparent 1px);
+  background-size: auto, 20px 20px, 20px 20px;
+  background-blend-mode: multiply, normal, normal;
+}
+
+/* Kraft paper / cardboard */
+.kraft {
+  background-color: var(--kraft);
+  background-image: var(--grain), var(--fibers);
+  background-blend-mode: multiply;
+}
+
+/* ---------- Tape ---------- */
+.tape {
+  position: absolute;
+  z-index: 3;
+  width: var(--w, 110px);
+  height: 30px;
+  background:
+    linear-gradient(90deg, var(--tape-edge), transparent 6% 94%, var(--tape-edge)),
+    var(--tape);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  transform: rotate(var(--r, -4deg));
+  /* torn, zig-zag ends */
+  clip-path: polygon(
+    0% 8%, 3% 0%, 6% 10%, 9% 2%, 12% 6%, 88% 4%, 91% 0%, 94% 9%, 97% 2%, 100% 10%,
+    100% 92%, 97% 100%, 94% 91%, 91% 99%, 88% 94%, 12% 96%, 9% 100%, 6% 91%, 3% 98%, 0% 90%
+  );
+  backdrop-filter: blur(0.6px);
+  -webkit-backdrop-filter: blur(0.6px);
+  pointer-events: none;
+}
+.tape.pink {
+  background:
+    linear-gradient(90deg, rgba(200, 30, 110, 0.25), transparent 6% 94%, rgba(200, 30, 110, 0.25)),
+    rgba(255, 120, 185, 0.72);
+}
+.tape.clear {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.35), transparent 6% 94%, rgba(255, 255, 255, 0.35)),
+    rgba(255, 255, 255, 0.38);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.tape.black {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 6% 94%, rgba(255, 255, 255, 0.08)),
+    rgba(28, 26, 24, 0.9);
+}
+.tape.top {
+  top: -14px;
+  left: 50%;
+  margin-left: calc(var(--w, 110px) / -2);
+}
+.tape.tl {
+  top: -10px;
+  left: -26px;
+  --r: -38deg;
+}
+.tape.tr {
+  top: -10px;
+  right: -26px;
+  --r: 38deg;
+}
+.tape.bl {
+  bottom: -10px;
+  left: -26px;
+  --r: 38deg;
+}
+.tape.br {
+  bottom: -10px;
+  right: -26px;
+  --r: -38deg;
+}
+
+/* ---------- Type ---------- */
+
+/* Typed "eyebrow" label, like a rubber stamp or typewriter tag */
 .eyebrow {
-  font-family: var(--pixel);
-  font-size: 0.68rem;
+  display: inline-block;
+  font-family: var(--worn);
+  font-size: 0.95rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--pink);
-  margin: 0 0 1rem;
+  color: var(--red-pen);
+  margin: 0 0 0.5rem;
 }
 
+/* Big marker headline */
 .section-title {
-  font-family: var(--display);
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  line-height: 1.05;
+  font-family: var(--marker);
   font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
+  font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+  line-height: 1.05;
   margin: 0 0 1rem;
+  color: var(--ink);
+  letter-spacing: 0.01em;
 }
 
+.hand {
+  font-family: var(--hand);
+  color: var(--ballpoint);
+  font-weight: 500;
+}
+
+/* Highlighter swipe behind text */
+.hl {
+  background: linear-gradient(
+    100deg,
+    transparent 0 2%,
+    var(--hl, var(--highlight)) 3% 96%,
+    transparent 97%
+  );
+  background-size: 100% 62%;
+  background-position: 0 78%;
+  background-repeat: no-repeat;
+  padding-inline: 0.12em;
+  margin-inline: -0.12em;
+  border-radius: 0.2em 0.5em 0.3em 0.6em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.hl.yellow {
+  --hl: var(--highlight-yellow);
+}
+
+/* Hand-drawn underline */
+.scribble {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8c30-5 60-6 95-4s70 3 101-2M8 10c40-3 90-4 150-1' fill='none' stroke='%23c8312b' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E")
+    0 100% / 100% 0.4em no-repeat;
+  padding-bottom: 0.18em;
+}
+
+/* ---------- Buttons: chunky paper cut-outs you can press ---------- */
 .btn {
+  --bg: var(--index);
+  --fg: var(--ink);
+  --edge: var(--ink);
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.4rem;
-  border-radius: 999px;
-  font-weight: 600;
+  gap: 0.55rem;
+  padding: 0.85rem 1.35rem 0.8rem;
+  font-family: var(--marker);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
   text-decoration: none;
-  border: 1px solid transparent;
-  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  color: var(--fg);
+  background-color: var(--bg);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  border: 2.5px solid var(--edge);
+  border-radius: 4px 9px 5px 11px / 10px 5px 9px 4px;
+  box-shadow: 4px 4px 0 var(--edge);
+  transform: rotate(var(--tilt, -1deg));
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  cursor: pointer;
 }
-
 .btn:hover {
-  transform: translateY(-2px);
+  transform: rotate(var(--tilt, -1deg)) translate(-1px, -2px);
+  box-shadow: 6px 6px 0 var(--edge);
 }
-
+.btn:active {
+  transform: rotate(var(--tilt, -1deg)) translate(4px, 4px);
+  box-shadow: 0 0 0 var(--edge);
+}
 .btn-pink {
-  background: var(--pink);
-  color: var(--black);
-  box-shadow: 0 0 0 0 var(--pink-glow);
+  --bg: var(--pink);
+  --fg: #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
 }
-
-.btn-pink:hover {
-  box-shadow: 0 10px 40px -6px var(--pink-glow);
-}
-
 .btn-ghost {
-  border: 2px solid var(--pink);
-  color: var(--white);
-  background: transparent;
-  box-shadow: 0 0 10px var(--pink-glow), inset 0 0 10px var(--pink-glow);
+  --bg: var(--sticky);
+  --tilt: 1.2deg;
 }
 
-.btn-ghost:hover {
-  box-shadow: 0 0 18px var(--pink), inset 0 0 14px var(--pink-glow);
-}
-
+/* ---------- Scroll reveal: things get "placed" on the page ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(18px) rotate(calc(var(--rot, 0deg) + 2deg)) scale(1.02);
+  transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.2, 0.9, 0.25, 1.25);
 }
-
 .reveal.in {
   opacity: 1;
-  transform: none;
+  transform: rotate(var(--rot, 0deg));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -157,7 +351,7 @@ a {
   }
   .reveal {
     opacity: 1;
-    transform: none;
+    transform: rotate(var(--rot, 0deg));
     transition: none;
   }
   *,

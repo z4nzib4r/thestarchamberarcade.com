@@ -22,49 +22,53 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
     width: 100%;
     height: 100%;
     min-height: 320px;
-    background: #0b0b0d;
+    background: var(--paper-2);
     /* Leaflet panes use z-index 400–1000; keep them contained so they never cover the fixed header */
     position: relative;
     z-index: 0;
     isolation: isolate;
   }
 
-  /* Turn the standard OSM tiles into a dark map (tiles only, so the pin keeps its color) */
+  /* Make the OSM tiles look like a faded photocopy of a printed map */
   .map :global(.leaflet-tile-pane) {
-    filter: invert(1) grayscale(1) brightness(0.85) contrast(0.95);
+    filter: grayscale(1) sepia(0.35) contrast(1.15) brightness(1.02);
+    mix-blend-mode: multiply;
   }
 
-  /* Dark UI chrome to match the site */
+  /* Paper-and-marker controls */
   .map :global(.leaflet-control-zoom a) {
-    background: #000;
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.15);
+    background: var(--index);
+    color: var(--ink);
+    font-family: var(--marker);
+    border-color: var(--ink);
   }
   .map :global(.leaflet-control-zoom a:hover) {
-    background: var(--pink);
-    color: #000;
+    background: var(--sticky);
+    color: var(--ink);
   }
   .map :global(.leaflet-bar) {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+    box-shadow: 3px 3px 0 var(--ink);
     overflow: hidden;
   }
   .map :global(.leaflet-control-attribution) {
-    background: rgba(0, 0, 0, 0.7);
-    color: rgba(255, 255, 255, 0.55);
+    background: rgba(246, 240, 224, 0.85);
+    color: var(--pencil);
+    font-family: var(--type);
     font-size: 10px;
   }
   .map :global(.leaflet-control-attribution a) {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--ballpoint);
   }
 
-  /* Pink neon pin */
+  /* Hand-drawn marker pin */
   .map :global(.pin) {
-    filter: drop-shadow(0 0 6px var(--pink)) drop-shadow(0 0 14px rgba(255, 45, 149, 0.6));
+    filter: drop-shadow(2px 3px 1px rgba(0, 0, 0, 0.35));
     transition: transform 0.2s ease;
   }
   .map :global(.pin:hover) {
-    transform: translateY(-3px);
+    transform: translateY(-3px) rotate(-4deg);
   }
 </style>
 
@@ -94,8 +98,8 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
       iconSize: [36, 48],
       iconAnchor: [18, 46],
       html: `<svg viewBox="0 0 36 48" width="36" height="48" aria-hidden="true">
-        <path d="M18 2C9.2 2 2 9 2 17.7 2 29.5 18 46 18 46s16-16.5 16-28.3C34 9 26.8 2 18 2z" fill="#ff2d95" stroke="#fff" stroke-width="2"/>
-        <path d="M18 9.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L18 23l-5.4 3 1.2-6-4.5-4.2 6.1-.7z" fill="#000"/>
+        <path d="M18.4 2.3C9.5 1.6 2.4 8.8 2.2 17.4 2 29.8 18 46 18 46s15.8-16.1 16-28.6C34.2 8.6 27 2.6 17.2 2.4" fill="#ff2d95" stroke="#1d1b19" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 9.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L18 23l-5.4 3 1.2-6-4.5-4.2 6.1-.7z" fill="#fff8e6" stroke="#1d1b19" stroke-width="1.6" stroke-linejoin="round"/>
       </svg>`,
     });
 
